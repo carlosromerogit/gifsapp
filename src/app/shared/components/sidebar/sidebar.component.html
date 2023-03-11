@@ -1,0 +1,10 @@
+<h1 class="pt-2 ps-2 mb-4">Gifs App</h1>
+<div class="list-group list-group" data-bs-theme="dark">
+  <a
+    *ngFor="let query of history"
+    href="#"
+    class="list-group-item list-group-item-action"
+    (click)="sendQuery(query)"
+    >{{ query | titlecase }}
+  </a>
+</div>
