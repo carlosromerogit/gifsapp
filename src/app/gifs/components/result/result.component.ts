@@ -15,6 +15,9 @@ export class ResultComponent {
   get errorMessage() {
     return this.gifsService.errorMessage;
   }
+  get onLine() {
+    return this.gifsService.onLine;
+  }
   get results(): Gif[] {
     return this.gifsService.results;
   }

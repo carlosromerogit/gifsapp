@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Gif, GifsResponse } from '../interfaces/gifs.interface';
 
@@ -11,6 +11,7 @@ export class GifsService {
   public results: Gif[] = [];
   public isLoading: boolean = false;
   public errorMessage: boolean = false;
+  public onLine: boolean = navigator.onLine;
 
   private _base: string = 'https://api.giphy.com/v1/gifs/search';
   private _api_key: string = 'ZHWRW0Dioz4aQR9LdG2m7Vew7Bk70wz2';
@@ -23,11 +24,16 @@ export class GifsService {
     this._history = JSON.parse(localStorage.getItem('history')!) || [];
     this.results = JSON.parse(localStorage.getItem('results')!) || [];
     if (!this.results.length) this.isLoading = false;
+    if (!this.onLine) this.results = [];
   }
 
   storeHistory(query: string): void {
+    if (!this.onLine) return;
     this._history = this._history.slice(0, 5);
-    if (this._history.includes(query)) return;
+    if (this._history.includes(query)) {
+      this.getGifs(query);
+      return;
+    }
     this._history.unshift(query);
     localStorage.setItem('history', JSON.stringify(this._history));
     this.getGifs(query);
